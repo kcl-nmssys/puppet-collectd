@@ -52,17 +52,19 @@ class collectd::plugin::python (
     default  => 'directory',
   }
 
-  ensure_resource('file', $module_dirs,
-    {
-      'ensure'  => $ensure_modulepath,
-      'mode'    => $collectd::plugin_conf_dir_mode,
-      'owner'   => $collectd::config_owner,
-      'purge'   => $collectd::purge_config,
-      'force'   => true,
-      'group'   => $collectd::config_group,
-      'require' => Package[$collectd::package_name]
-    }
-  )
+  if $module_dirs == $modulepaths {
+    ensure_resource('file', $module_dirs,
+      {
+        'ensure'  => $ensure_modulepath,
+        'mode'    => $collectd::plugin_conf_dir_mode,
+        'owner'   => $collectd::config_owner,
+        'purge'   => $collectd::purge_config,
+        'force'   => true,
+        'group'   => $collectd::config_group,
+        'require' => Package[$collectd::package_name]
+      }
+    )
+  }
 
   # should be loaded after global plugin configuration
   $python_conf = "${collectd::plugin_conf_dir}/${conf_name}"
