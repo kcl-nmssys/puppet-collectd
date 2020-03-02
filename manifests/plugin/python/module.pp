@@ -23,14 +23,13 @@ define collectd::plugin::python::module (
 
   if $script_source {
     file { "${module}.script":
-      ensure  => $ensure,
-      path    => "${module_dir}/${module}.py",
-      owner   => $collectd::config_owner,
-      group   => $collectd::config_group,
-      mode    => $collectd::config_mode,
-      source  => $script_source,
-      require => File[$module_dir],
-      notify  => Service[$collectd::service_name],
+      ensure => $ensure,
+      path   => "${module_dir}/${module}.py",
+      owner  => $collectd::config_owner,
+      group  => $collectd::config_group,
+      mode   => $collectd::config_mode,
+      source => $script_source,
+      notify => Service[$collectd::service_name],
     }
   }
 
